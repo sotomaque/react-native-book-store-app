@@ -11,7 +11,7 @@ import {
 import Header from '../components/Header';
 import { COLORS, FONTS, icons, images, SIZES } from '../constants';
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const profileData = {
     name: 'Enrique',
     points: 200,
@@ -46,8 +46,8 @@ const Home = () => {
     longer in control. Computer technology expert Daniel Suarez blends haunting high-tech realism 
     with gripping suspense in an authentic, complex thriller in the tradition of Michael Crichton, 
     Neal Stephenson, and William Gibson.`,
-    backgroundColor: 'rgba(240, 240, 232, 0.9)',
-    navTintColor: '#000',
+    backgroundColor: 'rgba(119,77,143,0.9)',
+    navTintColor: '#FFF',
   };
 
   const bookTheBigNine = {
@@ -102,6 +102,11 @@ const Home = () => {
       categoryName: 'The Latest',
       books: [bookTheBigNine],
     },
+    {
+      id: 3,
+      categoryName: 'Coming Soon',
+      books: [bookDaemon],
+    },
   ];
 
   const [profile, setProfile] = React.useState(profileData);
@@ -133,30 +138,13 @@ const Home = () => {
               alignItems: 'center',
             }}>
             {/* My Rating */}
-            <Image
-              source={icons.clock_icon}
-              style={{ width: 20, height: 20, tintColor: COLORS.lightGray }}
-            />
             <Text
               style={{
                 marginLeft: 5,
                 ...FONTS.body3,
                 color: COLORS.lightGray,
               }}>
-              {item.myRating}
-            </Text>
-            {/* Pages */}
-            <Image
-              source={icons.page_icon}
-              style={{ width: 20, height: 20, tintColor: COLORS.lightGray }}
-            />
-            <Text
-              style={{
-                marginLeft: 5,
-                ...FONTS.body3,
-                color: COLORS.lightGray,
-              }}>
-              {item.pageNo}
+              My Rating: {item.myRating} / 5
             </Text>
           </View>
         </TouchableOpacity>
@@ -237,7 +225,7 @@ const Home = () => {
     let books = [];
 
     let selectedCategoryBooks = categories.filter(
-      (a) => a.id == selectedCategory,
+      (a) => a.id === selectedCategory,
     );
 
     if (selectedCategoryBooks.length > 0) {
@@ -245,11 +233,16 @@ const Home = () => {
     }
 
     const renderItem = ({ item }) => {
+      console.log('items: ', item);
       return (
         <View style={{ marginVertical: SIZES.base }}>
           <TouchableOpacity
             style={{ flex: 1, flexDirection: 'row' }}
-            onPress={() => console.log('categoriees data')}>
+            onPress={() =>
+              navigation.navigate('BookDetail', {
+                book: item,
+              })
+            }>
             {/* Book Cover */}
             <Image
               source={item.bookCover}
@@ -279,8 +272,54 @@ const Home = () => {
               </View>
 
               {/* Book Info */}
+              <View style={{ flexDirection: 'row', marginTop: SIZES.radius }}>
+                <Image
+                  source={icons.page_filled_icon}
+                  resizeMode="contain"
+                  style={{
+                    width: 20,
+                    height: 20,
+                    tintColor: COLORS.lightGray,
+                  }}
+                />
+                <Text
+                  style={{
+                    ...FONTS.body4,
+                    color: COLORS.lightGray,
+                    paddingHorizontal: SIZES.radius,
+                  }}>
+                  {item.pageNo} pages
+                </Text>
+              </View>
 
               {/* Genre */}
+              <View style={{ flexDirection: 'row', marginTop: SIZES.base }}>
+                {/* Science Fiction */}
+                {item.genre.map((genre, index) => {
+                  return (
+                    index <= 1 && (
+                      <View
+                        style={{
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          padding: SIZES.base,
+                          marginRight: SIZES.base,
+                          backgroundColor: COLORS.darkGreen,
+                          height: 40,
+                          borderRadius: SIZES.radius,
+                        }}>
+                        <Text
+                          style={{
+                            ...FONTS.body3,
+                            color: COLORS.lightGreen,
+                          }}>
+                          {genre}
+                        </Text>
+                      </View>
+                    )
+                  );
+                })}
+              </View>
             </View>
           </TouchableOpacity>
 

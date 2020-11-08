@@ -1,20 +1,7 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, icons, SIZES } from '../constants';
-
-const LineDivider = () => {
-  return (
-    <View style={{ width: 1, paddingVertical: 18 }}>
-      <View
-        style={{
-          flex: 1,
-          borderLeftColor: COLORS.lightGray,
-          borderLeftWidth: 1,
-        }}
-      />
-    </View>
-  );
-};
+import LineDivider from './LineDivider';
 
 const Header = ({ profile }) => {
   const [time, setTime] = React.useState('');
